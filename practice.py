@@ -1,5 +1,4 @@
-x = 1
-while x <= 107 :
-    print ("Hare Krishna")
+x = 0
+while x <= 99:
     x += 1
     print (x)
