@@ -10,7 +10,7 @@ while count <= int(Times):
 Count = 100
 while Count >= 1:
     print (Count)
-    Count -= 1'''
+    Count -= 1
 
 Dict = {
     "Name" : "Radhe",
@@ -28,4 +28,5 @@ Dict = {
 }
 
 Dict["Hobby"] = "Doing Kirtan"
-print (Dict)
+print (Dict)'''
+
