@@ -5,9 +5,9 @@ count = 1
 
 while count <= int(Times):
     print ("Radhe", count)
-    count +=1
+    count +=1''' # Radhe counting
 
-ran = (3, 7, 81, 67, 43, 23, 45, 56, 78, 90, 12, 34, 89, 90)
+'''ran = (3, 7, 81, 67, 43, 23, 45, 56, 78, 90, 12, 34, 89, 90)
 
 someinput = int(input("Pick a number between 1 and 100 :"))
 
@@ -16,12 +16,15 @@ while someinput not in ran:
     print ("Try again")
     someinput = int(input("Pick a number between 1 and 100 :"))
 if someinput in ran:
-    print ("finding..\n" *5, "\nCongratulations! You found the number", someinput, "can you find the other numbers? Restart the terminal to play it again :)")
+    print ("finding..\n" *5, "\nCongratulations! You found the number", someinput, "can you find the other numbers? Restart the terminal to play it again :)")'''
+     # Number guessing game
 
-import calendar
+'''import calendar
 yy= 2026
 mm = 3
-print(calendar.month(yy, mm))'''
+print(calendar.month(yy, mm))''' #smt I found on pinterest, I don't know how it looks cool
+
+tup = ()
 
 
 
