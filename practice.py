@@ -1,35 +1,21 @@
-'''Times = input("How many number of times do you want to print Radhe? :")
 
-Name = "Radhe"
-count = 1
+'''Ran = (5, 10, 15, 20, 25, 20, 30, 35, 40, 45)
 
-while count <= int(Times):
-    print ("Radhe", count)
-    count +=1''' # Radhe counting
+userput = int (input("Enter a number:"))
 
-'''ran = (3, 7, 81, 67, 43, 23, 45, 56, 78, 90, 12, 34, 89, 90)
+while userput not in Ran:
+    print ("Try Again")
+    userput = int (input("Enter a number:"))
+if userput in Ran:
+    print ("Congratulations! You guessed the number!!!")'''
 
-someinput = int(input("Pick a number between 1 and 100 :"))
+smt = [1, 4, 9, 16, 25, 36, 49, 64, 81, 100]
 
-while someinput not in ran:
-    print ("finding..\n" *5)
-    print ("Try again")
-    someinput = int(input("Pick a number between 1 and 100 :"))
-if someinput in ran:
-    print ("finding..\n" *5, "\nCongratulations! You found the number", someinput, "can you find the other numbers? Restart the terminal to play it again :)")'''
-     # Number guessing game
-
-'''import calendar
-yy= 2026
-mm = 3
-print(calendar.month(yy, mm))''' #smt I found on pinterest, I don't know how it looks cool
-
-tup = ()
-
-
-
-   
-
-
-
-
+userput = int (input("Enter a number:"))
+for el in smt:
+    if userput == el:
+        print ("Congratulations! You guessed the number!!!")
+        break
+else:
+    print ("Try Again")
+    userput = int (input("Enter a number:"))
