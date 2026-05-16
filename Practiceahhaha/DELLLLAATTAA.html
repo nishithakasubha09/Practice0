@@ -4,41 +4,23 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
-    <h1>Survey Form</h1>
 </head>
 <body>
+    <h1>Get In Touch</h1>
+
     <form>
-        <label for="name">Name:</label>
-        <input type="text" id="name" name="name"><br><br>
+        <section>
+            <label for="name">Name</label>
+            <input type="text" name="name" id="name" placeholder="Name"><br>
 
-        <label for="age">Age:</label>
-        <input type="number" id="age" name="age"><br><br>
+            <label for="email">Email</label>
+            <input type="email" name="email" id="email" placeholder="Email"><br>
 
-        <label>Gender:</label>
+            <label for="message">Message</label>
+            <textarea id="message" rows="5" cols="40" placeholder="Message"></textarea><br>
 
-        <label for="male">Male</label>
-        <input type="radio" id="male" name="gender">
-
-        <label for="feamale">Female</label>
-        <input type="radio" id="female" name="gender"><br><br>
-
-        <label for="favfood">Favorite Food</label>
-        <select id="food" name="food">
-            <option value="pizza">Pizza</option>
-            <option value="pasta">Pasta</option>
-            <option value="fries">Fries</option>
-            <option value="Chips">Chips</option>
-            <option value="home_cooked">Home Cooked</option>
-            <option value="dessert">Dessert</option>
-        </select> <br><br>
-        
-        <label for="liking">Do you like to cook?</label>
-        <input type="checkbox" id="liking" name="liking">Yes <br><br>
-
-        <label>Additional Comments</label>
-        <textarea rows="5" cols="40"></textarea><br><br>
-
-        <button>Submit</button>
+            <input type="submit" value="Send">
+        </section>
     </form>
 </body>
 </html>
