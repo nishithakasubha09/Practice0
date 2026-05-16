@@ -99,6 +99,9 @@
     
 # print (count)
 
-f = open("Python.py", "r")
 
-print (f)
+f = open("prac.txt", "w")
+data = f.write("")
+f.close()
+
+
