@@ -100,8 +100,21 @@
 # print (count)
 
 
-f = open("prac.txt", "w")
-data = f.write("")
-f.close()
+def find_python():
+    with open("notes.txt","r") as f:
+        word = "Python"
+        line = 1
+        data = True
+        while data:
+            data = f.readline()
 
+            if not data:
+                return -1
 
+            if word in data:
+                print(line)
+                return
+
+            line += 1
+
+print (find_python())

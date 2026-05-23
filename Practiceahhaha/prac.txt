@@ -1,4 +1,4 @@
-A Server-Side Template Injection (SSTI) vulnerability occurs when an application unsafely embeds user-supplied input
- directly into a server-side template engine, allowing an attacker to inject malicious
- template directives. Instead of treating the input as plain text, the template engine processes it as code,
- enabling the attacker to execute arbitrary commands, read sensitive files, or fully compromise the back-end server.
+Hi everyone
+we are learning File I/O
+using python
+I like programming with python

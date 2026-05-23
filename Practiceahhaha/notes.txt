@@ -1,0 +1,4 @@
+I like coding
+Java is cool
+Python is amazing
+Files are fun

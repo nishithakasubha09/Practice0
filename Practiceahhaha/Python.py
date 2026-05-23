@@ -31,14 +31,53 @@
 #        gcd = i
 # print (gcd)
 
+# def sumofno(items, idx=0):
+#     if idx == len(items):
+#         return
+#     print(items[idx])
+#     sumofno(items, idx + 1)
+# a = ["apple", "cat", "blue", "pizza", "cloud", "keyboard", "star"]
+# sumofno(a)
 
 
-def sumofno(items, idx=0):
-    if idx == len(items):
-        return
-    print(items[idx])
-    sumofno(items, idx + 1)
 
-a = ["apple", "cat", "blue", "pizza", "cloud", "keyboard", "star"]
+# with open("prac.txt", "w")as f:
+#     f.write("Hi everyone\nwe are learning File I/O\nusing Java\nI like programming with Java")
 
-sumofno(a)
+
+# with open ("prac.txt","r")as f:
+#     data = f.read()
+# new_data = data.replace("Java", "python")
+# with open ("prac.txt","w")as f:
+#     f.write(new_data)
+
+# def look():
+#     learn = data.find("java")
+#     if (learn !=-1):
+#         print (True)
+#     else:
+#         print(False)
+# look()
+
+
+
+
+
+
+
+def for_line():
+    line = 1
+    data = True
+    word = "learning"
+    with open ("prac.txt","r")as f:
+        while data:
+            data = f.readline()
+            if (word in data):
+                print(line)
+                return
+            line +=1
+        return -1    
+for_line()
+
+
+
