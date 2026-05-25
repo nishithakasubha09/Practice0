@@ -1,47 +1,12 @@
-<!-- <!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-</head>
-<body>
-    <section>
-        <table border="1">
-            <thead>
-            <tr>
-                <th>Name</th>
-                <th>Tech</th>
-                <th>Rating</th>
-            </tr>
-            </thead>
-             <tr>
-                <td rowspan="2">Vikhyat</td>
-                <td>Html</td>
-                <td>5</td>
-             </tr>
-             <tr>
-                 <td>CSS</td>
-                <td>1</td>
-             </tr>
-             <tr>
-                <td rowspan="2">Ayush</td>
-                <td>Html</td>
-                <td>4</td>
-             </tr>
+<!-- Use relevant CSS selectors and properties to:
+1. Change color of h1 heading to 'blue' and center it horizontally to the page.
+2. Change background color <p> with class 'highlight' to 'yellow'.
+3. Change font size of <p> with id 'special' to 20 pixels.
+4. Add a solid gray border of 10 pixels to input of having type of 'text'.
+5. Change the color of <a> to 'red' when user hovers over it.
 
-             <tr>
-                <td>CSS</td>
-                <td>2</td>
-            </tr>
-            <tr>
-                <td colspan="3">Total:12</td>
-            </tr>
-
-        </table>
-    </section>
-</body>
-</html>
+Further, refer to the test cases to understand necessary requirements to submit the problem.
+Below is the basic structure of the expected output: -->
 
 <!DOCTYPE html>
 <html lang="en">
@@ -50,128 +15,29 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
 </head>
+<style>
+    h1{
+        color: blue;
+    }
+    .highlight{
+        background-color: yellow;
+    }
+    #special{
+        font-size: 20px;
+    }
+    .border {
+  border: 10px solid grey;
+    }
+    a:hover{
+        color: red;
+    }
+</style>
 <body>
-The SCALER Table Solution 
-<section>
-    <table>
-        <thead>
-            <tr>
-                <th>Title</th>
-                <th>Author</th>
-                <th>Publication Date</th>
-                <th>Pages</th>
-            </tr>
-        </thead>
-
-        <tbody>
-            <tr>
-                <td>The Great Gatsby</td>
-                <td>F. Scott Fitzgerald</td>
-                <td>April 10, 1925</td>
-                <td>180</td>
-            </tr>
-
-            <tr>
-                <td>To Kill a Mockingbird</td>
-                <td>Harper Lee</td>
-                <td>July 11, 1960</td>
-                <td>281</td>
-            </tr>
-
-            <tr>
-                <td>1984</td>
-                <td>George Orwell</td>
-                <td>June 8, 1949</td>
-                <td>326</td>
-            </tr>
-
-            <tr>
-                <td>Pride and Prejudice</td>
-                <td>Jane Austen</td>
-                <td>January 28, 1813</td>
-                <td>282</td>
-            </tr>
-
-            <tr>
-                <td>The Catcher in the Rye</td>
-                <td>J.D. Salinger</td>
-                <td>July 16, 1951</td>
-                <td>277</td>
-            </tr>
-        </tbody>
-    </table>
-</section>
-
+    <h1 style="text-align: center;">Heading</h1>
+    <p class="highlight">This is a highlighted paragraph.</p>
+    <p id="special">This is a special paragraph.</p>
+    <input type="text" class="border" />
+    <input type="number" />
+    <a href="#">Link</a>
 </body>
 </html>
-
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-    <h1>Survey Form</h1>
-</head>
-<body>
-    <form>
-        <label for="name">Name:</label>
-        <input type="text" id="name" name="name"><br><br>
-
-        <label for="age">Age:</label>
-        <input type="number" id="age" name="age"><br><br>
-
-        <label>Gender:</label>
-
-        <label for="male">Male</label>
-        <input type="radio" id="male" name="gender">
-
-        <label for="feamale">Female</label>
-        <input type="radio" id="female" name="gender"><br><br>
-
-        <label for="favfood">Favorite Food</label>
-        <select id="food" name="food">
-            <option value="pizza">Pizza</option>
-            <option value="pasta">Pasta</option>
-            <option value="fries">Fries</option>
-            <option value="Chips">Chips</option>
-            <option value="home_cooked">Home Cooked</option>
-            <option value="dessert">Dessert</option>
-        </select> <br><br>
-        
-        <label for="liking">Do you like to cook?</label>
-        <input type="checkbox" id="liking" name="liking">Yes <br><br>
-
-        <label>Additional Comments</label>
-        <textarea rows="5" cols="40"></textarea><br><br>
-
-        <button>Submit</button>
-    </form>
-</body>
-</html>
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-</head>
-<body>
-    <h1>Get In Touch</h1>
-
-    <form>
-        <section>
-            <label for="name">Name</label>
-            <input type="text" name="name" id="name" placeholder="Name"><br>
-
-            <label for="email">Email</label>
-            <input type="email" name="email" id="email" placeholder="Email"><br>
-
-            <label for="message">Message</label>
-            <textarea id="message" rows="5" cols="40" placeholder="Message"></textarea><br>
-
-            <input type="submit" value="Send">
-        </section>
-    </form>
-</body>
-</html> -->
