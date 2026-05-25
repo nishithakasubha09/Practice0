@@ -1,43 +1,46 @@
-<!-- Use relevant CSS selectors and properties to:
-1. Change color of h1 heading to 'blue' and center it horizontally to the page.
-2. Change background color <p> with class 'highlight' to 'yellow'.
-3. Change font size of <p> with id 'special' to 20 pixels.
-4. Add a solid gray border of 10 pixels to input of having type of 'text'.
-5. Change the color of <a> to 'red' when user hovers over it.
-
-Further, refer to the test cases to understand necessary requirements to submit the problem.
-Below is the basic structure of the expected output: -->
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
-</head>
-<style>
-    h1{
+    <style>
+            h1{
         color: blue;
     }
-    .highlight{
-        background-color: yellow;
+    .yellow{
+        background-color: rgb(255,255,0);
+    }
+    .highlight.yellow{
+        color: #ff0000;
     }
     #special{
-        font-size: 20px;
+       background-color: hsl(120, 100%, 50%)
     }
-    .border {
-  border: 10px solid grey;
+    input{
+        background-color: rgba(255, 0, 0, 0.5);
     }
     a:hover{
-        color: red;
+        color:hsla(0, 100%, 50%, 0.8)
     }
-</style>
+    .jinx{
+        color: powderblue;
+    }
+    .emo_ah{
+        color:violet
+    }
+
+    </style>
+</head>
+
 <body>
-    <h1 style="text-align: center;">Heading</h1>
-    <p class="highlight">This is a highlighted paragraph.</p>
+    <h1>Heading</h1>
+    <p class="yellow">Paragraph with yellow background.</p>
+    <p class="highlight yellow">This is a highlighted paragraph.</p>
     <p id="special">This is a special paragraph.</p>
-    <input type="text" class="border" />
-    <input type="number" />
+    <input type="text" />
     <a href="#">Link</a>
+    <h1 class="jinx">JINXXXXXX</h1>
+    <h1 class="emo_ah">VI</h1>
 </body>
 </html>
