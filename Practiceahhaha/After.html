@@ -1,0 +1,437 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ARCANEEE</title>
+
+<style>
+
+body {
+    margin: 0;
+    height: 100vh;
+    display: grid;
+    place-items: center;
+    transition: background-color 0.4s ease;
+    overflow: hidden;
+    background: rgb(199, 199, 199);
+}
+
+/* ✨ BACKGROUND EFFECTS */
+
+#background-effects {
+    position: fixed;
+    inset: 0;
+    overflow: hidden;
+    pointer-events: none;
+    z-index: 0;
+}
+
+/* floating text */
+
+.bg-text {
+    position: absolute;
+    font-size: 40px;
+    font-weight: bold;
+    opacity: 0.15;
+    animation: floatText 6s linear forwards;
+    white-space: nowrap;
+}
+
+/* Jinx random shapes */
+
+.shape {
+    position: absolute;
+    border: 4px solid black;
+    opacity: 0.25;
+    animation: shapeFloat 5s linear forwards;
+}
+
+@keyframes floatText {
+
+    from {
+        transform: translateY(100vh) rotate(0deg);
+        opacity: 0;
+    }
+
+    20% {
+        opacity: 0.5;
+    }
+
+    to {
+        transform: translateY(-20vh) rotate(-8deg);
+        opacity: 0;
+    }
+}
+
+@keyframes shapeFloat {
+
+    from {
+        transform: scale(0.3) rotate(0deg);
+        opacity: 0;
+    }
+
+    20% {
+        opacity: 0.3;
+    }
+
+    to {
+        transform: scale(1.5) rotate(360deg);
+        opacity: 0;
+    }
+}
+
+/* GRID */
+
+.grid {
+    display: grid;
+    grid-template-columns: 300px 300px 300px;
+    grid-template-rows: 200px 200px 200px;
+    gap: 120px;
+    align-items: center;
+    justify-items: center;
+    position: relative;
+    z-index: 2;
+}
+
+h1 {
+    font-size: 80px;
+    margin: 0;
+    transition: all 0.3s ease;
+    cursor: pointer;
+}
+
+/* COLORS */
+
+.jinx { color: powderblue; }
+.vi { color: violet; }
+.cait { color: #DEDAEE; }
+.ekko { color: #2b1c05; }
+.isha { color: rgb(108, 42, 0); }
+
+/* ACTIVE CHARACTER */
+
+.active {
+    transform: scale(1.4);
+    z-index: 10;
+}
+
+/* FADE */
+
+.fade {
+    opacity: 0;
+    transform: scale(0.85);
+    pointer-events: none;
+    transition: all 0.3s ease;
+}
+
+/* 💙 HEXTECH GLOW */
+
+.hextech {
+    text-shadow:
+        0 0 8px #8cecff,
+        0 0 18px #4dcfff,
+        0 0 35px #00aaff,
+        0 0 60px #0077ff;
+
+    animation: hexPulse 1.5s infinite alternate;
+}
+
+@keyframes hexPulse {
+
+    from {
+        filter: brightness(1);
+    }
+
+    to {
+        filter: brightness(1.3);
+    }
+}
+
+/* ⚡ JINX FLICKER */
+
+@keyframes jinxFlicker {
+
+    0% { opacity: 1; }
+    50% { opacity: 0.88; }
+    100% { opacity: 1; }
+}
+
+.jinx-effect {
+    animation: jinxFlicker 0.18s infinite;
+}
+
+/* ✨ PARTICLES */
+
+.particle {
+    position: fixed;
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    pointer-events: none;
+    background: #7fe7ff;
+
+    box-shadow:
+        0 0 10px #7fe7ff,
+        0 0 20px #00bbff;
+
+    animation: burst 0.8s forwards;
+    z-index: 1;
+}
+
+@keyframes burst {
+
+    from {
+        transform: translate(0,0) scale(1);
+        opacity: 1;
+    }
+
+    to {
+        transform: translate(var(--x), var(--y)) scale(0);
+        opacity: 0;
+    }
+}
+
+</style>
+</head>
+
+<body id="page">
+
+<div id="background-effects"></div>
+
+<div class="grid">
+
+    <!-- top -->
+    <h1 class="vi">VI</h1>
+    <div></div>
+    <h1 class="cait">Caitlyn</h1>
+
+    <!-- middle -->
+    <div></div>
+    <h1 class="isha">ISHA</h1>
+    <div></div>
+
+    <!-- bottom -->
+    <h1 class="jinx">Jinx</h1>
+    <div></div>
+    <h1 class="ekko">Ekko</h1>
+
+</div>
+
+<script>
+
+const page = document.getElementById("page");
+const chars = document.querySelectorAll("h1");
+const bg = document.getElementById("background-effects");
+
+let effectInterval;
+
+/* COLORS */
+
+const colors = {
+    vi: "black",
+    jinx: "#206B9F",
+    cait: "#282A4A",
+    isha: "#550000",
+    ekko: "#06402B"
+};
+
+/* FLOATING TEXT */
+
+function spawnText(words, color) {
+
+    effectInterval = setInterval(() => {
+
+        const text = document.createElement("div");
+        text.classList.add("bg-text");
+
+        text.innerText =
+            words[Math.floor(Math.random() * words.length)];
+
+        text.style.color = color;
+
+        text.style.left = Math.random() * 90 + "vw";
+        text.style.top = Math.random() * 100 + "vh";
+
+        text.style.fontSize =
+            25 + Math.random() * 40 + "px";
+
+        bg.appendChild(text);
+
+        setTimeout(() => {
+            text.remove();
+        }, 6000);
+
+    }, 300);
+}
+
+/* JINX SHAPES */
+
+function spawnShapes() {
+
+    effectInterval = setInterval(() => {
+
+        const shape = document.createElement("div");
+        shape.classList.add("shape");
+
+        const size = 40 + Math.random() * 120;
+
+        shape.style.width = size + "px";
+        shape.style.height = size + "px";
+
+        shape.style.left = Math.random() * 100 + "vw";
+        shape.style.top = Math.random() * 100 + "vh";
+
+        shape.style.borderRadius =
+            Math.random() > 0.5 ? "50%" : "0%";
+
+        shape.style.background =
+            Math.random() > 0.5
+            ? "rgba(32,107,159,0.2)"
+            : "rgba(255,255,255,0.15)";
+
+        bg.appendChild(shape);
+
+        setTimeout(() => {
+            shape.remove();
+        }, 5000);
+
+    }, 250);
+}
+
+/* HOVER EFFECTS */
+
+chars.forEach(char => {
+
+    char.addEventListener("mouseenter", () => {
+
+        const cls = char.classList[0];
+
+        page.style.backgroundColor = colors[cls];
+
+        clearInterval(effectInterval);
+        bg.innerHTML = "";
+
+        /* character focus */
+
+        chars.forEach(c => {
+
+            if (c === char) {
+                c.classList.add("active");
+                c.classList.remove("fade");
+            }
+
+            else {
+                c.classList.add("fade");
+                c.classList.remove("active");
+            }
+
+            c.classList.remove("hextech");
+            c.classList.remove("jinx-effect");
+        });
+
+        /* 💙 glow */
+
+        char.classList.add("hextech");
+
+        /* VI */
+
+        if (cls === "vi") {
+
+            spawnText(
+                [ "What if..", "Please..", "Powder..", "Cupcake", "Please"],
+                "rgba(255,255,255,0.35)"
+            );
+        }
+
+        /* CAIT */
+
+        if (cls === "cait") {
+
+            spawnText(
+                ["Vi...", "HOW!?", "What happened!?", "Tell me!"],
+                "rgba(255,255,255,0.3)"
+            );
+        }
+
+        /* ISHA */
+
+        if (cls === "isha") {
+
+            spawnText(
+                [
+                    "For Jinx",
+                    "My long Hair",
+                    "Pow Pow",
+                    "When I grow up..."
+                ],
+                "rgba(255,220,180,0.3)"
+            );
+        }
+
+        /* JINX */
+
+        if (cls === "jinx") {
+
+            char.classList.add("jinx-effect");
+
+            spawnShapes();
+
+            const rect = char.getBoundingClientRect();
+
+            for (let i = 0; i < 20; i++) {
+
+                const particle = document.createElement("div");
+                particle.classList.add("particle");
+
+                particle.style.left =
+                    rect.left + rect.width / 2 + "px";
+
+                particle.style.top =
+                    rect.top + rect.height / 2 + "px";
+
+                particle.style.setProperty(
+                    "--x",
+                    (Math.random() - 0.5) * 300 + "px"
+                );
+
+                particle.style.setProperty(
+                    "--y",
+                    (Math.random() - 0.5) * 300 + "px"
+                );
+
+                document.body.appendChild(particle);
+
+                setTimeout(() => {
+                    particle.remove();
+                }, 800);
+            }
+        }
+    });
+});
+
+/* RESET */
+
+document.querySelector(".grid").addEventListener("mouseleave", () => {
+
+    chars.forEach(c => {
+
+        c.classList.remove(
+            "fade",
+            "active",
+            "jinx-effect",
+            "hextech"
+        );
+    });
+
+    clearInterval(effectInterval);
+
+    bg.innerHTML = "";
+
+    page.style.backgroundColor = "white";
+});
+
+</script>
+
+</body>
+</html>
