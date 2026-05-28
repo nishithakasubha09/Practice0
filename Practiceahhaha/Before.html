@@ -1,61 +1,84 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Document</title>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+<!-- For the div.card:
+1. Set the height and width as 400px each
+2. Apply a border of solid style, 30px width, and #7D5A44 color.
+3. Set the background-color to #EBE0C7
+4. Set line-height to 25px
+5. Add a box-shadow of '0 10px 22px 10px rgba(27, 38, 49, 0.1)'
+6. Set color property to #7D5A44
 
-<style>
-    body {
-        margin: 0;
-        height: 100vh;
-        display: grid;
-        place-items: center;
-    }
 
-    .grid {
-        display: grid;
-        grid-template-columns: 300px 300px 300px;
-        grid-template-rows: 200px 200px 200px;
-        gap: 120px;
-        align-items: center;
-        justify-items: center;
-    }
+Now, in the h1 tag there is a <span> that contains the text '(Menu)'
 
-    h1 {
-        font-size: 80px;
-        margin: 0;
-    }
+For the entire h1:
+1. Set text-align as 'center'
+2. Add padding of 20px
 
-   .jinx { color: powderblue; } 
-   .jinx:hover{ color:#206B9F } 
-   .vi { color: violet; } 
-   .vi:hover{ color: black } 
-   .cait { color: #282A4A; } 
-   .cait:hover{ color: antiquewhite; background-color: #282A4A; } 
-   .ekko { color: #5D503D; } 
-   .ekko:hover{
-    color: green}
-   .isha { color: rgb(198, 91, 24); } 
-   .isha:hover{ color: rgb(96, 13, 13) }
-</style>
+For the content in h1 inside of <span>, i.e., '(Menu)':
+1. Set text-decoration property to 'overline'
+2. Set the font-size to 15px -->
+
+    <style>
+        div.card{
+            height: 400px;
+            width: 400px;
+            border: 30px solid #7D5A44 ;
+            background-color: #EBE0C7 ;
+            line-height: 25px;
+            box-shadow: 0 10px 22px 10px rgba(27, 38, 49, 0.1) ;
+        }
+        .ran{
+            color: #7D5A44 ;
+        }
+        h1{
+            text-align: center;
+            padding: 20px;
+        }
+        h1> span{
+            text-decoration: overline;
+            font-size: 15px;
+        }
+        * {
+            margin: 0;
+            box-sizing: border-box;
+            font-family: "Lato", sans-serif;
+        }
+
+        body {
+            height: 60vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        /* Write CSS from here ============= */
+    </style>
 </head>
 
 <body>
-
-<div class="grid">
-    <h1 class="vi">VI</h1>
-    <div></div>
-    <h1 class="cait">Caitlyn</h1>
-
-    <div></div>
-    <h1 class="isha">ISHA</h1>
-    <div></div>
-
-    <h1 class="jinx">Jinx</h1>
-    <div></div>
-    <h1 class="ekko">Ekko</h1>
-</div>
-
+    <div class="card">
+        <h1 class="ran">
+            Les Papilles <br />
+            <span>(Menu)</span>
+        </h1>
+        <ol class="ran">
+            <li>Cheese Cheddar Burger</li>
+            <li>Quadro Formaggi Pizza</li>
+            <li>Overfilled Cheese Lasagna</li>
+            <li>Mac and Cheese</li>
+            <li>Mozzarella Linguine</li>
+            <li>Arabiata Spaghetti</li>
+            <li>Cadillac Margarita</li>
+            <li>Harvey Wallbanger</li>
+        </ol>
+    </div>
 </body>
+
 </html>
