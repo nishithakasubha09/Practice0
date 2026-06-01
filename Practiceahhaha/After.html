@@ -17,68 +17,13 @@ body {
     background: rgb(199, 199, 199);
 }
 
-/* ✨ BACKGROUND EFFECTS */
+/* BACKGROUND */
 
 #background-effects {
     position: fixed;
     inset: 0;
-    overflow: hidden;
     pointer-events: none;
     z-index: 0;
-}
-
-/* floating text */
-
-.bg-text {
-    position: absolute;
-    font-size: 40px;
-    font-weight: bold;
-    opacity: 0.15;
-    animation: floatText 6s linear forwards;
-    white-space: nowrap;
-}
-
-/* Jinx random shapes */
-
-.shape {
-    position: absolute;
-    border: 4px solid black;
-    opacity: 0.25;
-    animation: shapeFloat 5s linear forwards;
-}
-
-@keyframes floatText {
-
-    from {
-        transform: translateY(100vh) rotate(0deg);
-        opacity: 0;
-    }
-
-    20% {
-        opacity: 0.5;
-    }
-
-    to {
-        transform: translateY(-20vh) rotate(-8deg);
-        opacity: 0;
-    }
-}
-
-@keyframes shapeFloat {
-
-    from {
-        transform: scale(0.3) rotate(0deg);
-        opacity: 0;
-    }
-
-    20% {
-        opacity: 0.3;
-    }
-
-    to {
-        transform: scale(1.5) rotate(360deg);
-        opacity: 0;
-    }
 }
 
 /* GRID */
@@ -97,11 +42,9 @@ body {
 h1 {
     font-size: 80px;
     margin: 0;
-    transition: all 0.3s ease;
     cursor: pointer;
+    transition: 0.3s;
 }
-
-/* COLORS */
 
 .jinx { color: powderblue; }
 .vi { color: violet; }
@@ -109,87 +52,52 @@ h1 {
 .ekko { color: #2b1c05; }
 .isha { color: rgb(108, 42, 0); }
 
-/* ACTIVE CHARACTER */
+.active { transform: scale(1.4); }
+.fade { opacity: 0.6; transform: scale(0.85); }
 
-.active {
-    transform: scale(1.4);
-    z-index: 10;
+/* 💥 SCREEN BREAK MODE */
+.glitch-screen {
+    animation: shake 0.1s infinite;
 }
 
-/* FADE */
-
-.fade {
-    opacity: 0;
-    transform: scale(0.85);
-    pointer-events: none;
-    transition: all 0.3s ease;
+@keyframes shake {
+    0% { transform: translate(0,0); }
+    25% { transform: translate(-1px,1px); }
+    50% { transform: translate(2px,-1px); }
+    75% { transform: translate(-2px,2px); }
+    100% { transform: translate(0,0); }
 }
 
-/* 💙 HEXTECH GLOW */
-
-.hextech {
-    text-shadow:
-        0 0 8px #8cecff,
-        0 0 18px #4dcfff,
-        0 0 35px #00aaff,
-        0 0 60px #0077ff;
-
-    animation: hexPulse 1.5s infinite alternate;
-}
-
-@keyframes hexPulse {
-
-    from {
-        filter: brightness(1);
-    }
-
-    to {
-        filter: brightness(1.3);
-    }
-}
-
-/* ⚡ JINX FLICKER */
-
-@keyframes jinxFlicker {
-
-    0% { opacity: 1; }
-    50% { opacity: 0.88; }
-    100% { opacity: 1; }
-}
-
-.jinx-effect {
-    animation: jinxFlicker 0.18s infinite;
-}
-
-/* ✨ PARTICLES */
-
-.particle {
+/* 🧊 CRACK LINES */
+.crack {
     position: fixed;
-    width: 6px;
-    height: 6px;
-    border-radius: 50%;
+    background: rgba(255,255,255,0.7);
+    z-index: 10;
     pointer-events: none;
-    background: #7fe7ff;
-
-    box-shadow:
-        0 0 10px #7fe7ff,
-        0 0 20px #00bbff;
-
-    animation: burst 0.8s forwards;
-    z-index: 1;
+    animation: crackFade 4s forwards;
 }
 
-@keyframes burst {
+@keyframes crackFade {
+    0% { opacity: 0; transform: scale(0); }
+    20% { opacity: 1; }
+    100% { opacity: 0; transform: scale(1.5); }
+}
 
-    from {
-        transform: translate(0,0) scale(1);
-        opacity: 1;
-    }
+/* 🖱️ CURSOR TRAIL */
+.cursor-dot {
+    position: fixed;
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: cyan;
+    box-shadow: 0 0 10px cyan, 0 0 20px blue;
+    pointer-events: none;
+    z-index: 999;
+    animation: fadeDot 0.8s forwards;
+}
 
-    to {
-        transform: translate(var(--x), var(--y)) scale(0);
-        opacity: 0;
-    }
+@keyframes fadeDot {
+    to { transform: scale(0); opacity: 0; }
 }
 
 </style>
@@ -200,106 +108,84 @@ h1 {
 <div id="background-effects"></div>
 
 <div class="grid">
-
-    <!-- top -->
     <h1 class="vi">VI</h1>
     <div></div>
     <h1 class="cait">Caitlyn</h1>
 
-    <!-- middle -->
     <div></div>
     <h1 class="isha">ISHA</h1>
-    <div></div>
 
-    <!-- bottom -->
+    <div></div>
     <h1 class="jinx">Jinx</h1>
+
     <div></div>
     <h1 class="ekko">Ekko</h1>
-
 </div>
 
 <script>
 
 const page = document.getElementById("page");
 const chars = document.querySelectorAll("h1");
-const bg = document.getElementById("background-effects");
 
-let effectInterval;
+let crackInterval;
+let hoverTime = 0;
+let glitchActive = false;
 
-/* COLORS */
+/* 🧠 CRACK SYSTEM (GETS WORSE OVER TIME) */
+function startCracks() {
 
-const colors = {
-    vi: "black",
-    jinx: "#206B9F",
-    cait: "#282A4A",
-    isha: "#550000",
-    ekko: "#06402B"
-};
+    crackInterval = setInterval(() => {
 
-/* FLOATING TEXT */
+        hoverTime++;
 
-function spawnText(words, color) {
+        for (let i = 0; i < hoverTime / 3; i++) {
 
-    effectInterval = setInterval(() => {
+            const crack = document.createElement("div");
+            crack.classList.add("crack");
 
-        const text = document.createElement("div");
-        text.classList.add("bg-text");
+            crack.style.left = Math.random() * 100 + "vw";
+            crack.style.top = Math.random() * 100 + "vh";
 
-        text.innerText =
-            words[Math.floor(Math.random() * words.length)];
+            const size = 50 + Math.random() * 300;
 
-        text.style.color = color;
+            crack.style.width = size + "px";
+            crack.style.height = "2px";
 
-        text.style.left = Math.random() * 90 + "vw";
-        text.style.top = Math.random() * 100 + "vh";
+            crack.style.transform = `rotate(${Math.random() * 360}deg)`;
 
-        text.style.fontSize =
-            25 + Math.random() * 40 + "px";
+            document.body.appendChild(crack);
 
-        bg.appendChild(text);
+            setTimeout(() => crack.remove(), 4000);
+        }
 
-        setTimeout(() => {
-            text.remove();
-        }, 6000);
-
-    }, 300);
+    }, 500);
 }
 
-/* JINX SHAPES */
+/* 🖱️ CURSOR TRAIL */
+document.addEventListener("mousemove", (e) => {
 
-function spawnShapes() {
+    if (!glitchActive) return;
 
-    effectInterval = setInterval(() => {
+    const dot = document.createElement("div");
+    dot.classList.add("cursor-dot");
 
-        const shape = document.createElement("div");
-        shape.classList.add("shape");
+    dot.style.left = e.clientX + "px";
+    dot.style.top = e.clientY + "px";
 
-        const size = 40 + Math.random() * 120;
+    document.body.appendChild(dot);
 
-        shape.style.width = size + "px";
-        shape.style.height = size + "px";
+    setTimeout(() => dot.remove(), 800);
+});
 
-        shape.style.left = Math.random() * 100 + "vw";
-        shape.style.top = Math.random() * 100 + "vh";
-
-        shape.style.borderRadius =
-            Math.random() > 0.5 ? "50%" : "0%";
-
-        shape.style.background =
-            Math.random() > 0.5
-            ? "rgba(32,107,159,0.2)"
-            : "rgba(255,255,255,0.15)";
-
-        bg.appendChild(shape);
-
-        setTimeout(() => {
-            shape.remove();
-        }, 5000);
-
-    }, 250);
+/* STOP EVERYTHING */
+function resetGlitch() {
+    clearInterval(crackInterval);
+    hoverTime = 0;
+    glitchActive = false;
+    page.classList.remove("glitch-screen");
 }
 
-/* HOVER EFFECTS */
+/* HOVER SYSTEM */
 
 chars.forEach(char => {
 
@@ -307,128 +193,19 @@ chars.forEach(char => {
 
         const cls = char.classList[0];
 
-        page.style.backgroundColor = colors[cls];
-
-        clearInterval(effectInterval);
-        bg.innerHTML = "";
-
-        /* character focus */
-
-        chars.forEach(c => {
-
-            if (c === char) {
-                c.classList.add("active");
-                c.classList.remove("fade");
-            }
-
-            else {
-                c.classList.add("fade");
-                c.classList.remove("active");
-            }
-
-            c.classList.remove("hextech");
-            c.classList.remove("jinx-effect");
-        });
-
-        /* 💙 glow */
-
-        char.classList.add("hextech");
-
-        /* VI */
-
-        if (cls === "vi") {
-
-            spawnText(
-                [ "What if..", "Please..", "Powder..", "Cupcake", "Please"],
-                "rgba(255,255,255,0.35)"
-            );
-        }
-
-        /* CAIT */
-
-        if (cls === "cait") {
-
-            spawnText(
-                ["Vi...", "HOW!?", "What happened!?", "Tell me!"],
-                "rgba(255,255,255,0.3)"
-            );
-        }
-
-        /* ISHA */
-
-        if (cls === "isha") {
-
-            spawnText(
-                [
-                    "For Jinx",
-                    "My long Hair",
-                    "Pow Pow",
-                    "When I grow up..."
-                ],
-                "rgba(255,220,180,0.3)"
-            );
-        }
-
-        /* JINX */
-
         if (cls === "jinx") {
 
-            char.classList.add("jinx-effect");
+            glitchActive = true;
+            page.classList.add("glitch-screen");
 
-            spawnShapes();
-
-            const rect = char.getBoundingClientRect();
-
-            for (let i = 0; i < 20; i++) {
-
-                const particle = document.createElement("div");
-                particle.classList.add("particle");
-
-                particle.style.left =
-                    rect.left + rect.width / 2 + "px";
-
-                particle.style.top =
-                    rect.top + rect.height / 2 + "px";
-
-                particle.style.setProperty(
-                    "--x",
-                    (Math.random() - 0.5) * 300 + "px"
-                );
-
-                particle.style.setProperty(
-                    "--y",
-                    (Math.random() - 0.5) * 300 + "px"
-                );
-
-                document.body.appendChild(particle);
-
-                setTimeout(() => {
-                    particle.remove();
-                }, 800);
-            }
+            startCracks();
         }
     });
 });
 
 /* RESET */
-
 document.querySelector(".grid").addEventListener("mouseleave", () => {
-
-    chars.forEach(c => {
-
-        c.classList.remove(
-            "fade",
-            "active",
-            "jinx-effect",
-            "hextech"
-        );
-    });
-
-    clearInterval(effectInterval);
-
-    bg.innerHTML = "";
-
-    page.style.backgroundColor = "white";
+    resetGlitch();
 });
 
 </script>
