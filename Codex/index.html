@@ -1,0 +1,184 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Science Signal Lab</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <canvas id="lab-field" aria-hidden="true"></canvas>
+  <div id="celebration-layer" aria-hidden="true"></div>
+
+  <main class="app-shell">
+    <section class="workspace" aria-labelledby="app-title">
+      <header class="top-strip">
+        <div class="brand-lockup">
+          <svg class="brand-icon" viewBox="0 0 80 80" role="img" aria-label="Science Signal Lab mark">
+            <circle cx="40" cy="40" r="9"></circle>
+            <ellipse cx="40" cy="40" rx="31" ry="13"></ellipse>
+            <ellipse cx="40" cy="40" rx="31" ry="13" transform="rotate(60 40 40)"></ellipse>
+            <ellipse cx="40" cy="40" rx="31" ry="13" transform="rotate(120 40 40)"></ellipse>
+          </svg>
+          <div>
+            <p class="eyebrow">Memory challenge</p>
+            <h1 id="app-title">Science Signal Lab</h1>
+          </div>
+        </div>
+        <div class="status-pill" id="round-state" role="status" aria-live="polite">Ready</div>
+      </header>
+
+      <div class="experience-grid">
+        <section class="game-panel" aria-label="Science signal memory game">
+          <div class="intro-strip">
+            <div>
+              <span class="signal-label">Signal sequence</span>
+              <strong id="guide-message">Ready to train your memory.</strong>
+            </div>
+            <p>Watch the highlighted pattern, then repeat it. Each round adds one more signal.</p>
+          </div>
+
+          <div class="meter-row" aria-label="Run score">
+            <div class="meter">
+              <span class="meter-label">Level</span>
+              <strong id="level-value">0</strong>
+            </div>
+            <div class="meter">
+              <span class="meter-label">Score</span>
+              <strong id="score-value">0</strong>
+            </div>
+            <div class="meter">
+              <span class="meter-label">Best level</span>
+              <strong id="best-value">0</strong>
+            </div>
+          </div>
+
+          <div class="board-frame">
+            <div class="signal-board" id="signal-board" role="grid" aria-label="Science signal grid">
+              <button class="signal-cell" style="--cell: #1b91a0; --cell-dark: #0d5260;" data-cell="0" role="gridcell" aria-label="Signal 1">
+                <span class="cell-number">01</span>
+                <span class="cell-name">Alpha</span>
+              </button>
+              <button class="signal-cell" style="--cell: #df6146; --cell-dark: #8f3220;" data-cell="1" role="gridcell" aria-label="Signal 2">
+                <span class="cell-number">02</span>
+                <span class="cell-name">Beta</span>
+              </button>
+              <button class="signal-cell" style="--cell: #4f75cf; --cell-dark: #273f82;" data-cell="2" role="gridcell" aria-label="Signal 3">
+                <span class="cell-number">03</span>
+                <span class="cell-name">Gamma</span>
+              </button>
+              <button class="signal-cell" style="--cell: #d99b28; --cell-dark: #805510;" data-cell="3" role="gridcell" aria-label="Signal 4">
+                <span class="cell-number">04</span>
+                <span class="cell-name">Delta</span>
+              </button>
+              <button class="signal-cell" style="--cell: #70a653; --cell-dark: #3c642a;" data-cell="4" role="gridcell" aria-label="Signal 5">
+                <span class="cell-number">05</span>
+                <span class="cell-name">Epsilon</span>
+              </button>
+              <button class="signal-cell" style="--cell: #c04d82; --cell-dark: #712749;" data-cell="5" role="gridcell" aria-label="Signal 6">
+                <span class="cell-number">06</span>
+                <span class="cell-name">Zeta</span>
+              </button>
+              <button class="signal-cell" style="--cell: #487f66; --cell-dark: #244737;" data-cell="6" role="gridcell" aria-label="Signal 7">
+                <span class="cell-number">07</span>
+                <span class="cell-name">Eta</span>
+              </button>
+              <button class="signal-cell" style="--cell: #c9743b; --cell-dark: #773e19;" data-cell="7" role="gridcell" aria-label="Signal 8">
+                <span class="cell-number">08</span>
+                <span class="cell-name">Theta</span>
+              </button>
+              <button class="signal-cell" style="--cell: #695fbd; --cell-dark: #352f78;" data-cell="8" role="gridcell" aria-label="Signal 9">
+                <span class="cell-number">09</span>
+                <span class="cell-name">Sigma</span>
+              </button>
+            </div>
+          </div>
+
+          <div class="action-row">
+            <button class="primary-action" id="start-btn" type="button">Start</button>
+            <button class="icon-button" id="reset-btn" type="button" aria-label="Reset" title="Reset">
+              <svg viewBox="0 0 24 24" aria-hidden="true">
+                <path d="M4 12a8 8 0 1 0 2.3-5.7"></path>
+                <path d="M4 4v6h6"></path>
+              </svg>
+            </button>
+            <button class="icon-button" id="sound-btn" type="button" aria-label="Mute sound" title="Mute sound">
+              <svg class="sound-on" viewBox="0 0 24 24" aria-hidden="true">
+                <path d="M4 9v6h4l5 4V5L8 9H4z"></path>
+                <path d="M16 9.5a4 4 0 0 1 0 5"></path>
+                <path d="M18.5 7a7 7 0 0 1 0 10"></path>
+              </svg>
+              <svg class="sound-off" viewBox="0 0 24 24" aria-hidden="true">
+                <path d="M4 9v6h4l5 4V5L8 9H4z"></path>
+                <path d="M18 9l-5 5"></path>
+                <path d="M13 9l5 5"></path>
+              </svg>
+            </button>
+          </div>
+        </section>
+
+        <aside class="control-panel" aria-label="Game controls and run data">
+          <section class="control-block">
+            <div class="block-heading">
+              <h2>Mode</h2>
+              <span id="mode-caption">Steady pace</span>
+            </div>
+            <div class="segmented" role="radiogroup" aria-label="Game speed">
+              <button class="segment is-selected" type="button" role="radio" aria-checked="true" data-mode="calm">Easy</button>
+              <button class="segment" type="button" role="radio" aria-checked="false" data-mode="focus">Standard</button>
+              <button class="segment" type="button" role="radio" aria-checked="false" data-mode="sprint">Expert</button>
+            </div>
+          </section>
+
+          <section class="control-block">
+            <label class="switch-row" for="strict-toggle">
+              <span>
+                <strong>Challenge mode</strong>
+                <small>A miss ends the run</small>
+              </span>
+              <input id="strict-toggle" type="checkbox">
+            </label>
+          </section>
+
+          <section class="control-block">
+            <div class="block-heading">
+              <h2>Run stats</h2>
+              <span id="accuracy-value">100%</span>
+            </div>
+            <div class="data-grid">
+              <div>
+                <span>Streak</span>
+                <strong id="streak-value">0</strong>
+              </div>
+              <div>
+                <span>Misses</span>
+                <strong id="miss-value">0</strong>
+              </div>
+              <div>
+                <span>Rounds</span>
+                <strong id="round-value">0</strong>
+              </div>
+              <div>
+                <span>Best score</span>
+                <strong id="best-score-value">0</strong>
+              </div>
+            </div>
+          </section>
+
+          <section class="control-block badge-block" aria-label="Training targets">
+            <h2>Training targets</h2>
+            <div class="badge-row">
+              <span class="badge-chip">Focus</span>
+              <span class="badge-chip">Recall</span>
+              <span class="badge-chip">Speed</span>
+              <span class="badge-chip">Accuracy</span>
+            </div>
+          </section>
+        </aside>
+      </div>
+    </section>
+  </main>
+
+  <script src="app.js"></script>
+</body>
+</html>

@@ -1,0 +1,1 @@
+input("Please choose a door, \n Red door")

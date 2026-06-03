@@ -1,0 +1,470 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Lumen — A Memory Game</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,500;1,9..144,400&family=DM+Mono:wght@300;400;500&display=swap" rel="stylesheet" />
+<style>
+  :root {
+    --bg:        #161a28;
+    --bg-2:      #1c2133;
+    --ink:       #e8e9f0;
+    --muted:     #8a8fa6;
+    --line:      rgba(255,255,255,.07);
+    --panel:     rgba(255,255,255,.025);
+    --good:      #5eead4;
+    --bad:       #fb6f7c;
+    --serif:     "Fraunces", Georgia, serif;
+    --mono:      "DM Mono", ui-monospace, monospace;
+  }
+
+  * { box-sizing: border-box; }
+
+  html, body { height: 100%; }
+
+  body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--ink);
+    font-family: var(--mono);
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 32px 20px;
+    overflow: hidden;
+    position: relative;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  /* ---- Atmosphere: drifting aurora + vignette + grain ---- */
+  .aurora {
+    position: fixed;
+    inset: -20%;
+    z-index: 0;
+    filter: blur(90px);
+    opacity: .45;
+    pointer-events: none;
+  }
+  .aurora span {
+    position: absolute;
+    width: 46vmax;
+    height: 46vmax;
+    border-radius: 50%;
+    mix-blend-mode: screen;
+    animation: drift 26s ease-in-out infinite alternate;
+  }
+  .aurora span:nth-child(1){ background: radial-gradient(circle, #1b6f6f, transparent 60%); top: -10%; left: 5%; }
+  .aurora span:nth-child(2){ background: radial-gradient(circle, #3a2b73, transparent 60%); bottom: -15%; right: 0%; animation-delay: -8s; animation-duration: 32s; }
+  .aurora span:nth-child(3){ background: radial-gradient(circle, #6e2a55, transparent 60%); top: 30%; right: 25%; animation-delay: -14s; animation-duration: 38s; }
+
+  @keyframes drift {
+    from { transform: translate(0,0) scale(1); }
+    to   { transform: translate(6%, -8%) scale(1.18); }
+  }
+
+  body::after {
+    content: "";
+    position: fixed;
+    inset: 0;
+    z-index: 1;
+    pointer-events: none;
+    background:
+      radial-gradient(120% 80% at 50% 40%, transparent 45%, rgba(0,0,0,.38) 100%),
+      url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='2'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.035'/%3E%3C/svg%3E");
+  }
+
+  .stage { position: relative; z-index: 2; width: 100%; max-width: 460px; }
+
+  /* ---- Header ---- */
+  header { text-align: center; margin-bottom: 26px; }
+
+  .eyebrow {
+    font-size: 11px;
+    letter-spacing: .42em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin: 0 0 10px;
+  }
+  h1 {
+    font-family: var(--serif);
+    font-weight: 300;
+    font-size: clamp(44px, 13vw, 64px);
+    line-height: .95;
+    margin: 0;
+    letter-spacing: .01em;
+  }
+  h1 em {
+    font-style: italic;
+    font-weight: 400;
+    color: var(--good);
+  }
+
+  /* ---- HUD ---- */
+  .hud {
+    display: flex;
+    justify-content: center;
+    gap: 14px;
+    margin: 22px 0 18px;
+  }
+  .stat {
+    flex: 1;
+    max-width: 150px;
+    background: var(--panel);
+    border: 1px solid var(--line);
+    border-radius: 14px;
+    padding: 12px 16px;
+    text-align: center;
+    backdrop-filter: blur(6px);
+  }
+  .stat .label {
+    font-size: 10px;
+    letter-spacing: .28em;
+    text-transform: uppercase;
+    color: var(--muted);
+  }
+  .stat .value {
+    font-family: var(--serif);
+    font-size: 34px;
+    font-weight: 400;
+    line-height: 1.1;
+    margin-top: 2px;
+    font-variant-numeric: tabular-nums;
+  }
+
+  /* ---- Status line ---- */
+  .status {
+    text-align: center;
+    min-height: 22px;
+    font-size: 13px;
+    letter-spacing: .16em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 18px;
+    transition: color .25s;
+  }
+  .status .dot {
+    display: inline-block;
+    width: 7px; height: 7px;
+    border-radius: 50%;
+    background: var(--muted);
+    margin-right: 9px;
+    vertical-align: middle;
+    box-shadow: 0 0 0 0 transparent;
+  }
+  .status[data-mode="watch"]  { color: #b7c0d8; }
+  .status[data-mode="watch"]  .dot { background: #7dd3fc; box-shadow: 0 0 12px #7dd3fc; animation: pulse 1s ease-in-out infinite; }
+  .status[data-mode="go"]     { color: var(--good); }
+  .status[data-mode="go"]     .dot { background: var(--good); box-shadow: 0 0 12px var(--good); }
+  .status[data-mode="over"]   { color: var(--bad); }
+  .status[data-mode="over"]   .dot { background: var(--bad); box-shadow: 0 0 12px var(--bad); }
+
+  @keyframes pulse { 50% { opacity: .35; } }
+
+  /* ---- Board ---- */
+  .board {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 14px;
+    padding: 18px;
+    border-radius: 22px;
+    background: linear-gradient(160deg, rgba(255,255,255,.04), rgba(255,255,255,.01));
+    border: 1px solid var(--line);
+    box-shadow: 0 30px 80px -30px rgba(0,0,0,.9), inset 0 1px 0 rgba(255,255,255,.05);
+    transition: transform .1s;
+  }
+  .board.shake { animation: shake .45s cubic-bezier(.36,.07,.19,.97); }
+  @keyframes shake {
+    10%,90% { transform: translateX(-2px); }
+    20%,80% { transform: translateX(4px); }
+    30%,50%,70% { transform: translateX(-7px); }
+    40%,60% { transform: translateX(7px); }
+  }
+
+  .tile {
+    aspect-ratio: 1 / 1;
+    border: 1px solid hsl(var(--h) 50% 40% / .25);
+    border-radius: 16px;
+    cursor: pointer;
+    position: relative;
+    background:
+      radial-gradient(120% 120% at 30% 25%, hsl(var(--h) 62% 32% / .6), transparent 60%),
+      linear-gradient(160deg, hsl(var(--h) 38% 20%), hsl(var(--h) 32% 13%));
+    box-shadow: inset 0 1px 0 hsl(var(--h) 60% 50% / .12);
+    transition: transform .12s ease, box-shadow .25s ease, filter .25s ease;
+    -webkit-tap-highlight-color: transparent;
+    outline: none;
+  }
+  .board.live .tile:hover {
+    filter: brightness(1.35);
+    transform: translateY(-1px);
+  }
+  .tile:focus-visible {
+    box-shadow: 0 0 0 2px var(--bg), 0 0 0 4px hsl(var(--h) 80% 60% / .8);
+  }
+
+  .tile.active {
+    background:
+      radial-gradient(120% 120% at 30% 25%, hsl(var(--h) 95% 72%), hsl(var(--h) 90% 55%));
+    border-color: hsl(var(--h) 95% 75%);
+    box-shadow:
+      0 0 35px hsl(var(--h) 95% 60% / .75),
+      0 0 90px hsl(var(--h) 95% 55% / .45),
+      inset 0 0 20px hsl(var(--h) 100% 85% / .6);
+    transform: scale(1.04);
+  }
+
+  .tile.wrong {
+    background: radial-gradient(120% 120% at 30% 25%, #ff8a93, #c2303c) !important;
+    border-color: #ff9aa2 !important;
+    box-shadow: 0 0 40px rgba(251,111,124,.8) !important;
+  }
+
+  /* board locked during playback */
+  .board:not(.live) .tile { cursor: default; }
+
+  /* ---- Start / replay button ---- */
+  .controls { text-align: center; margin-top: 26px; }
+  button.cta {
+    font-family: var(--mono);
+    font-size: 13px;
+    letter-spacing: .22em;
+    text-transform: uppercase;
+    color: var(--bg);
+    background: var(--good);
+    border: none;
+    border-radius: 999px;
+    padding: 14px 38px;
+    cursor: pointer;
+    transition: transform .15s ease, box-shadow .25s ease, background .25s;
+    box-shadow: 0 0 0 0 rgba(94,234,212,.5);
+  }
+  button.cta:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 14px 34px -8px rgba(94,234,212,.6);
+  }
+  button.cta:active { transform: translateY(0); }
+  button.cta:disabled {
+    background: rgba(255,255,255,.08);
+    color: var(--muted);
+    cursor: default;
+    box-shadow: none;
+    transform: none;
+  }
+
+  .hint {
+    margin-top: 16px;
+    font-size: 11px;
+    letter-spacing: .1em;
+    color: var(--muted);
+    opacity: .7;
+    text-align: center;
+  }
+  .hint kbd {
+    font-family: var(--mono);
+    background: var(--panel);
+    border: 1px solid var(--line);
+    border-radius: 5px;
+    padding: 1px 6px;
+  }
+</style>
+</head>
+<body>
+
+  <div class="aurora" aria-hidden="true"><span></span><span></span><span></span></div>
+
+  <main class="stage">
+    <header>
+      <p class="eyebrow">A Memory Game</p>
+      <h1>Lu<em>men</em></h1>
+    </header>
+
+    <div class="hud">
+      <div class="stat">
+        <div class="label">Level</div>
+        <div class="value" id="level">0</div>
+      </div>
+      <div class="stat">
+        <div class="label">Best</div>
+        <div class="value" id="best">0</div>
+      </div>
+    </div>
+
+    <p class="status" id="status" data-mode="idle"><span class="dot"></span>Press start to begin</p>
+
+    <div class="board" id="board" role="group" aria-label="Memory grid"></div>
+
+    <div class="controls">
+      <button class="cta" id="start">Start</button>
+      <p class="hint">Watch the lights, then repeat. Keys <kbd>1</kbd>–<kbd>9</kbd> also work.</p>
+    </div>
+  </main>
+
+<script>
+  // ---- Configuration --------------------------------------------------
+  const HUES  = [165, 188, 205, 232, 260, 288, 322, 32, 95]; // distinct, cohesive jewel tones
+  const NOTES = [261.63, 293.66, 329.63, 392.00, 440.00, 523.25, 587.33, 659.25, 783.99]; // pentatonic
+  const ERROR_NOTE = 110;
+
+  // ---- State ----------------------------------------------------------
+  let sequence = [];
+  let input = [];
+  let level = 0;
+  let best = 0;
+  let locked = true;       // true while showing the sequence / between games
+  let audio = null;
+
+  // ---- DOM ------------------------------------------------------------
+  const board     = document.getElementById('board');
+  const statusEl  = document.getElementById('status');
+  const levelEl   = document.getElementById('level');
+  const bestEl    = document.getElementById('best');
+  const startBtn  = document.getElementById('start');
+
+  // Build the 9 tiles
+  const tiles = HUES.map((h, i) => {
+    const t = document.createElement('button');
+    t.className = 'tile';
+    t.style.setProperty('--h', h);
+    t.setAttribute('aria-label', `Tile ${i + 1}`);
+    t.dataset.i = i;
+    t.addEventListener('click', () => handlePress(i));
+    board.appendChild(t);
+    return t;
+  });
+
+  // ---- Audio (created on first user gesture) --------------------------
+  function ensureAudio() {
+    if (!audio) audio = new (window.AudioContext || window.webkitAudioContext)();
+    if (audio.state === 'suspended') audio.resume();
+  }
+
+  function tone(freq, duration = 0.32, type = 'sine') {
+    if (!audio) return;
+    const now = audio.currentTime;
+    const osc = audio.createOscillator();
+    const gain = audio.createGain();
+    osc.type = type;
+    osc.frequency.value = freq;
+    // soft attack + release to avoid clicks
+    gain.gain.setValueAtTime(0.0001, now);
+    gain.gain.exponentialRampToValueAtTime(0.22, now + 0.02);
+    gain.gain.exponentialRampToValueAtTime(0.0001, now + duration);
+    osc.connect(gain).connect(audio.destination);
+    osc.start(now);
+    osc.stop(now + duration + 0.05);
+  }
+
+  // ---- Helpers --------------------------------------------------------
+  const delay = ms => new Promise(r => setTimeout(r, ms));
+
+  function flash(i, ms = 320) {
+    const t = tiles[i];
+    t.classList.add('active');
+    tone(NOTES[i], ms / 1000 * 0.95);
+    setTimeout(() => t.classList.remove('active'), ms);
+  }
+
+  function setStatus(text, mode) {
+    statusEl.innerHTML = `<span class="dot"></span>${text}`;
+    statusEl.dataset.mode = mode;
+  }
+
+  // pace quickens gently as levels climb
+  const gap = () => Math.max(300, 620 - level * 18);
+
+  // ---- Game flow ------------------------------------------------------
+  function startGame() {
+    ensureAudio();
+    sequence = [];
+    level = 0;
+    levelEl.textContent = '0';
+    startBtn.disabled = true;
+    nextRound();
+  }
+
+  function nextRound() {
+    input = [];
+    level++;
+    levelEl.textContent = level;
+    sequence.push(Math.floor(Math.random() * 9));
+    playSequence();
+  }
+
+  async function playSequence() {
+    locked = true;
+    board.classList.remove('live');
+    setStatus('Watch', 'watch');
+    await delay(550);
+
+    const onTime = Math.round(gap() * 0.6);
+    for (const i of sequence) {
+      flash(i, onTime);
+      await delay(gap());
+    }
+
+    locked = false;
+    board.classList.add('live');
+    setStatus('Your turn', 'go');
+  }
+
+  function handlePress(i) {
+    if (locked) return;
+    flash(i, 240);
+    input.push(i);
+
+    const step = input.length - 1;
+
+    // wrong move → game over
+    if (input[step] !== sequence[step]) {
+      gameOver(i);
+      return;
+    }
+
+    // completed the round → advance
+    if (input.length === sequence.length) {
+      locked = true;
+      board.classList.remove('live');
+      setStatus('Nice', 'go');
+      setTimeout(nextRound, 750);
+    }
+  }
+
+  function gameOver(wrongTile) {
+    locked = true;
+    board.classList.remove('live');
+    tone(ERROR_NOTE, 0.6, 'sawtooth');
+
+    tiles[wrongTile].classList.remove('active');
+    tiles[wrongTile].classList.add('wrong');
+    board.classList.add('shake');
+    setTimeout(() => {
+      tiles[wrongTile].classList.remove('wrong');
+      board.classList.remove('shake');
+    }, 650);
+
+    best = Math.max(best, level);
+    bestEl.textContent = best;
+
+    setStatus(`Game over · reached level ${level}`, 'over');
+    startBtn.textContent = 'Play again';
+    startBtn.disabled = false;
+  }
+
+  // ---- Input bindings -------------------------------------------------
+  startBtn.addEventListener('click', startGame);
+
+  // keys 1–9 map to tiles left-to-right, top-to-bottom
+  window.addEventListener('keydown', e => {
+    if (e.repeat) return;
+    const n = parseInt(e.key, 10);
+    if (n >= 1 && n <= 9) handlePress(n - 1);
+    if (e.key === 'Enter' && startBtn.disabled === false) startGame();
+  });
+</script>
+</body>
+</html>
