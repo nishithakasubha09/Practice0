@@ -1,42 +1,77 @@
-<!-- The goal of this problem is to use CSS Flexbox to create a flexible layout for a webpage.
-
-Make sure to set the:
-
-1. the direction of the main axis to 'row'
-
-2. the alignment along the main axis to the 'center'
-
-3. the alignment along the cross-axis to the 'center'
-
-4. and enable the wrapping of items.
-
-Further, refer to the test cases to understand necessary requirements to submit the problem. -->
 <!DOCTYPE html>
-<html>
+<html lang="en">
+
 <head>
-    <link rel="stylesheet" href="style.css">
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contact Us</title>
+    <link rel="stylesheet" href="preset.css">
     <style>
-        .item{
-            height: 150px;
-            width: 145px;
-            margin: 5px;
-        }
-        .container{
+        .contact-form-section{
             display: flex;
-            justify-content: center;
-            align-items:center;
-            flex-wrap: wrap;
-            flex-direction:row;
+            justify-content:center; 
+            align-items: center;
+            flex-direction: column;
+
         }
+        .container_parent{
+            display: flex;
+            justify-content: space-evenly;
+            }
+
+
     </style>
 </head>
 
 <body>
-    <div class="container">
-        <div class="item" style="background-color: red;"></div>
-        <div class="item" style="background-color: green;"></div>
-        <div class="item" style="background-color: blue;"></div>
-    </div>
+    <section class="contact-form-section">
+        <h2>CONTACT US</h2>
+        <div class="container_parent">
+            <img class="bg-video__content" src="avocado.svg" alt="avocado-svg">
+            <form class="form">
+                <div class="entry">
+                    <div class="entry-text">
+                        Name
+                    </div>
+                    <input type="text" name="Name" placeholder="Your Name" required>
+                </div>
+                <div class="entry">
+                    <div class="entry-text">
+                        Email
+                    </div>
+                    <input type="email" name="email" placeholder="Your Email">
+                </div>
+                <div class="entry">
+                    <div class="entry-text">
+                        How did you find us
+                    </div>
+                    <select name="" id="">
+                        <option value="">
+                            friends
+                        </option>
+                        <option value="">search</option>
+                        <option value="">advertsiment</option>
+                        <option value="">other</option>
+                    </select>
+                </div>
+                <div class="entry">
+                    <div class="entry-text">
+                        Drop us a line
+                    </div>
+                    <textarea name="" id="" placeholder="Your Message"></textarea>
+                </div>
+                <div class="entry ">
+                    <input type="checkbox" class="checkbox">
+                    <span class="checkbox-conditions">I have read and agree with all the Privacy Policy and
+                        Terms Conditions</span>
+                </div>
+                <div class="btn-parent">
+                    <a href="#" class="btn btn-full form-button">SEND MESSAGE</a>
+                </div>
+            </form>
+        </div>
+    </section>
 </body>
 
 </html>
