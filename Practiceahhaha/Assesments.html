@@ -1,68 +1,48 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Footer</title>
+    <link rel="stylesheet" href="preset.css">
 
     <style>
-        body{
+        .footer-parent{
             display: flex;
-            justify-content: center;
-            align-items: center;
-            margin: 0;
-            min-height: 100vh;
-        }
-        .item{
-            width: 200px;
-            height: 200px;
-            text-align: center;
+            justify-content: space-between;
+            }
+
+        .footer-text{
             display: flex;
-            justify-content: center;
-            align-items: center;
-            color: ivory;
-            font-size: 2rem;
-            border-radius: 20px;
-        }
-        .container{
-            display: grid;
-            grid-template-columns: 200px 200px 200px;
-            grid-template-rows: 1fr 1fr;
-            gap: 10px;
-            border: 20px solid black;
-            border-radius: 20px;
-            background-color: black;
+            justify-content: flex-start;
+            }
 
-        }
-
-        .container .item:nth-child(1){
-            background-color: hotpink;
-        }
-        .container .item:nth-child(2){
-            background-color: lightcoral;
-        }
-        .container .item:nth-child(3){
-            background-color: lightgreen;
-        }
-        .container .item:nth-child(4){
-            background-color: lightseagreen;
-        }
-        .container .item:nth-child(5){
-            background-color: lightskyblue;
-        }
-        .container .item:nth-child(6){
-            background-color: hotpink;
+        .social-link{
+            display: flex;
+            justify-content: flex-end;
         }
     </style>
 </head>
+
 <body>
-    <div class="container">
-        <div class="item">1</div>   
-        <div class="item">2</div>
-        <div class="item">3</div>
-        <div class="item">4</div>
-        <div class="item">5</div>
-        <div class="item">6</div>
-    </div>
+    <footer>
+        <div class="footer-parent">
+            <ul class="footer-text">
+                <li class="text-value"><a href="">About us</a></li>
+                <li class="text-value"><a href="">ios App</a></li>
+                <li class="text-value"><a href="">Android App</a></li>
+            </ul>
+            <ul class="social-link">
+                <li><a href="#"><img src="facebook-logo-svg.svg" alt="logo"></a></li>
+                <li><a href="#"><img src="twitter-logo-svg.svg" alt="logo"></a></li>
+                <li><a href="#"><img src="instagram-round-svg.svg" alt="logo"></a></li>
+                <li><a href="#"><img src="snapchat-svg.svg" alt="logo"></a></li>
+            </ul>
+        </div>
+        <p class="footer-p">Copyright © 2019 EVERYONE. All rights reserved.</p>
+    </footer>
 </body>
+
 </html>
