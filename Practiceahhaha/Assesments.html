@@ -1,48 +1,69 @@
 <!DOCTYPE html>
 <html lang="en">
-
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Footer</title>
-    <link rel="stylesheet" href="preset.css">
-
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
     <style>
-        .footer-parent{
-            display: flex;
-            justify-content: space-between;
-            }
 
-        .footer-text{
-            display: flex;
-            justify-content: flex-start;
-            }
-
-        .social-link{
-            display: flex;
-            justify-content: flex-end;
+        body{
+            display: grid;
+            place-items: center;
+            margin:inherit;
         }
+
+      .mosaic {
+        padding: 1rem;
+        display: grid;
+        grid-template-columns: repeat(4, 150px);
+        grid-template-rows: repeat(3, 100px);
+        gap: 10px;
+        grid-auto-rows: 100px;
+      }
+
+      .card{
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+
+      .mosaic .card {
+        background: #3498db;
+        color: white;
+        padding: 1rem;
+        font-size: 1.5rem;
+        border-radius: 8px;
+      }
+
+      .mosaic .big {
+        background: #e74c3c;
+        grid-row: span 2;
+        grid-column: span 2;
+      }
+
+      .mosaic .tall {
+        background: #2ecc71;
+        grid-row:span 2;
+      }
+
+      .mosaic .wide {
+        background: #f1c40f;
+        grid-column: span 2;
+      }
     </style>
-</head>
-
-<body>
-    <footer>
-        <div class="footer-parent">
-            <ul class="footer-text">
-                <li class="text-value"><a href="">About us</a></li>
-                <li class="text-value"><a href="">ios App</a></li>
-                <li class="text-value"><a href="">Android App</a></li>
-            </ul>
-            <ul class="social-link">
-                <li><a href="#"><img src="facebook-logo-svg.svg" alt="logo"></a></li>
-                <li><a href="#"><img src="twitter-logo-svg.svg" alt="logo"></a></li>
-                <li><a href="#"><img src="instagram-round-svg.svg" alt="logo"></a></li>
-                <li><a href="#"><img src="snapchat-svg.svg" alt="logo"></a></li>
-            </ul>
-        </div>
-        <p class="footer-p">Copyright © 2019 EVERYONE. All rights reserved.</p>
-    </footer>
-</body>
-
+  </head>
+  <body>
+    <div class="task-2">
+      <h2>Task 2: Card Mosaic</h2>
+      <div class="mosaic">
+        <div class="card big">Featured</div>
+        <div class="card">1</div>
+        <div class="card tall">2</div>
+        <div class="card">3</div>
+        <div class="card wide">4</div>
+        <div class="card">5</div>
+        <div class="card">6</div>
+      </div>
+    </div>
+  </body>
 </html>
