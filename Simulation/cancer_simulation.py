@@ -151,7 +151,7 @@ def make_starting_grid():
 
 
 def random_empty_neighbour(grid, row, col):
-    """Return one empty neighbouring square, or None if there is no space."""
+    "Return one empty neighbouring square, or None if there is no space."
     neighbours = [
         (row - 1, col),
         (row + 1, col),
@@ -174,7 +174,7 @@ def random_empty_neighbour(grid, row, col):
 
 
 def apply_growth(grid):
-    """Run one generation of growth, mutation, and cancer spread."""
+    "Run one generation of growth, mutation, and cancer spread."
     all_positions = [
         (row, col)
         for row in range(grid_size)
