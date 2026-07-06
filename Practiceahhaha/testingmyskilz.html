@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        body{
+            background-color: black;
+            color: #2ed711 ;
+            font-family:'Courier New';
+            display: flex;
+            justify-content: center;
+            text-align: left;
+            height: 100vh;
+        }
+        .box{
+            position: absolute;
+            height: 450px;
+            width: 610px;
+            border: 5px solid #9af18a;
+            box-shadow:
+            0 0 5px #26ff00,
+            0 0 10px #26ff00,
+            0 0 20px #26ff00,
+            0 0 40px #26ff00;
+            border-radius: 2px;
+            animation: glow 2s infinite alternate;
+            padding: 20px;
+            margin-top: 100px;
+            transition: all 0.2s ease;
+            }
+        .box:hover{
+            height: 460px;
+            width: 620px;
+        }
+        .prj {
+            display: inline-block;
+            border: 5px solid #40de24;
+            padding: 4px;
+            box-shadow: 0 0 10px #87e377;
+            font-size: small;
+            cursor: pointer;
+            margin-top: 10px;
+            transition: all 0.2s ease;
+        }
+        .prj h1{
+            font-weight: 200;
+        }
+        .prj:hover{
+            border: 5px solid #26ff00;
+            padding: 4px;
+            box-shadow: 0 0 30px #87e377;
+            font-size: small;
+            color: black;
+            background-color: #26ff00;
+        }
+        .prj-container{
+            display: flex;
+            text-align: center;
+            justify-content: center;
+            margin-top: 20px;
+        }
+
+        .stack {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+    </style>
+</head>
+<body>
+    <div class="box">
+
+        <div class="stats">
+            <h1>PROFILE: CYBER ENGINEER</h1>
+            <h1 id="diff">TECH STATS: </h1>
+                <div class="stack">
+                    <h2>[HTML]:  [ █ █ █ █ █ █ █ █ ]</h2>
+                    <h2>100%</h2>
+                </div>
+            <div class="stack">
+                    <h2>[CSS]:   [ █ █ █ █ █ █ █ █ ]</h2>
+                    <h2>100%</h2>
+            </div>
+            <div class="stack">
+                    <h2>[PYTHON]: [ █ █ █ █ ...]</h2>
+                    <h2>LOADING</h2>
+            </div>
+        </div>
+            <div class="prj-container">
+                <div class="prj">
+                    <h1>[INITIALIZE PROJECT]</h1>
+                </div>
+            </div>
+        </div>
+</body>
+</html>
